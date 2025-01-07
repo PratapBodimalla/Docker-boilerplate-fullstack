@@ -1,0 +1,17 @@
+# Use the PostgreSQL 14 image as the base
+FROM postgres:14
+
+# Update and install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-server-dev-14 \
+    make \
+    gcc \
+    git
+
+# Clone and build the pgvector extension
+RUN git clone https://github.com/pgvector/pgvector.git && \
+    cd pgvector && \
+    make && make install
+
+# Clean up to reduce image size
+RUN apt-get remove -y git && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*

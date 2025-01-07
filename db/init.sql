@@ -13,3 +13,5 @@ INSERT INTO users (name, email) VALUES
 -- Create a view
 CREATE VIEW user_emails AS
 SELECT name, email FROM users;
+
+CREATE EXTENSION vector;

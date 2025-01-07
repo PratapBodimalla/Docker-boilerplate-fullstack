@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify
+import json
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
 import os
+from flask_cors import CORS
 
 # Load environment variables from .env file
 load_dotenv()
-
 app = Flask(__name__)
+CORS(app)
 
 # Get the DATABASE_URL environment variable
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -48,11 +50,11 @@ def get_db_connection():
 def get_users():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM users;")
+    cur.execute("SELECT json_agg(row_to_json(a.*)) FROM users as a;")
     users = cur.fetchall()
     cur.close()
     conn.close()
-    return jsonify(users)
+    return jsonify(users[0][0])
 
 
 # POST a new user
