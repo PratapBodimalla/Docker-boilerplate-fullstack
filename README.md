@@ -72,6 +72,7 @@ Access the application via your browser at `http://localhost:<frontend-port>`.
 ├── backend/       # Contains the backend code and DockerFile
 │   └── DockerFile
 ├── db/            # Contains database configurations and migrations
+│    └── DockerFile
 └──  docker-compose.yml
 ```
 
